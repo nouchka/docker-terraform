@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[ ! -f "$HOME/.env" ] || ENV_FILE_GLOBAL="--env-file $HOME/.env"
+[ ! -f "$(pwd)/.env" ] || ENV_FILE_GLOBAL="--env-file $(pwd)/.env"
 [ ! -d "$HOME/.config/terraform/" ] || TERRAFORM_DIRECTORY="-v $HOME/.config/ara/:/home/developer/.terraform/"
 [ ! -f "$(pwd)/.terraform/" ] || TERRAFORM_DIRECTORY="-v $(pwd)/.terraform/:/home/developer/.terraform/"
 
