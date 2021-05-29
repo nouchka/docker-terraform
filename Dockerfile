@@ -20,7 +20,7 @@ ENV FILE_URL https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VER
 WORKDIR /tmp
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update && \
-	DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install wget=* tar=* ca-certificates=* && \
+	DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install wget=* unzip=* ca-certificates=* && \
 	wget -qO- "${FILE_URL}" > /tmp/archive && \
 	sha256sum /tmp/archive && \
 	echo "${FILE_SHA256SUM}  /tmp/archive"| sha256sum -c - && \
@@ -30,9 +30,10 @@ RUN apt-get update && \
 	export uid=${PUID} gid=${PGID} && \
 	echo "developer:x:${uid}:${gid}:Developer,,,:/home/developer:/bin/bash" >> /etc/passwd && \
 	echo "developer:x:${uid}:" >> /etc/group && \
+	mkdir -p /home/developer && \
 	chown "${uid}:${gid}" -R /home/developer
 
-COPY --from=builder /go/src/github.com/cloudflare/cf-terraforming /ggt/
+COPY --from=builder /go/bin/cf-terraforming /usr/bin/cf-terraforming
 
 VOLUME /data/
 WORKDIR /data/
