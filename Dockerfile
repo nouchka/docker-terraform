@@ -1,4 +1,4 @@
-FROM golang:alpine
+FROM alpine
 LABEL maintainer="Jean-Avit Promis docker@katagena.com"
 
 LABEL org.label-schema.vcs-url="https://github.com/nouchka/docker-terraform"
@@ -12,6 +12,7 @@ ENV PGID ${PGID}
 ARG REPOSITORY=hashicorp/terraform
 ARG VERSION=1.1.5
 ARG FILE_SHA256SUM=30942d5055c7151f051c8ea75481ff1dc95b2c4409dbb50196419c21168d6467
+ARG CF_VERSION=0.6.3
 ENV FILE_URL https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip
 
 WORKDIR /tmp
@@ -27,8 +28,8 @@ RUN apk --update add git wget unzip && \
 	echo "developer:x:${uid}:" >> /etc/group && \
 	mkdir -p /home/developer && \
 	chown "${uid}:${gid}" -R /home/developer && \
-	go get -u github.com/cloudflare/cf-terraforming/... && \
-	mv /go/bin/cf-terraforming /usr/bin/cf-terraforming
+	wget -qO- "https://github.com/cloudflare/cf-terraforming/releases/download/v${CF_VERSION}/cf-terraforming_${CF_VERSION}_darwin_amd64.tar.gz" > /tmp/archive.tgz && \
+	tar xzf - -C /usr/bin/ < /tmp/archive.tgz
 
 VOLUME /data/
 WORKDIR /data/
