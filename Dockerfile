@@ -10,8 +10,8 @@ ENV PUID ${PUID}
 ENV PGID ${PGID}
 
 ARG REPOSITORY=hashicorp/terraform
-ARG VERSION=1.1.6
-ARG FILE_SHA256SUM=3e330ce4c8c0434cdd79fe04ed6f6e28e72db44c47ae50d01c342c8a2b05d331
+ARG VERSION=1.1.7
+ARG FILE_SHA256SUM=e4add092a54ff6febd3325d1e0c109c9e590dc6c38f8bb7f9632e4e6bcca99d4
 ARG CF_VERSION=0.6.3
 ENV FILE_URL https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip
 
