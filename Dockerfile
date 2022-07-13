@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:rolling
 LABEL maintainer="Jean-Avit Promis docker@katagena.com"
 
 LABEL org.label-schema.vcs-url="https://github.com/nouchka/docker-terraform"
@@ -16,7 +16,8 @@ ARG CF_VERSION=0.8.0
 ENV FILE_URL https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip
 
 WORKDIR /tmp
-RUN apt-get update && apt-get install -y git wget unzip && \
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN apt-get update && apt-get install --no-install-recommends -y git=* wget=* ca-certificates=* unzip=* && \
 	wget -qO- "${FILE_URL}" > /tmp/archive && \
 	sha256sum /tmp/archive && \
 	echo "${FILE_SHA256SUM}  /tmp/archive"| sha256sum -c - && \
